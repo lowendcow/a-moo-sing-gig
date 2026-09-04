@@ -35,8 +35,9 @@ const config = {
   },
   physics: {
     default: "arcade",
-    arcade: { gravity: { x: 0, y: worldGravity } },
+    arcade: { gravity: { x: 0, y: worldGravity }, debug: false },
   },
+  pixelArt: true,
   scene: { create, update },
 };
 
@@ -56,8 +57,8 @@ function create() {
   const LEVEL_HEIGHT = 4000;
   const platformStepY = maxJumpHeight * 0.8; // 80% of max reachable height
   const horizontalSwing = maxJumpDistance * 0.75; // 75% of max reachable distance
-  const leftX = LEVEL_WIDTH / 2 - horizontalSwing / 2; 
-  const rightX = LEVEL_WIDTH / 2 + horizontalSwing / 2; 
+  const leftX = LEVEL_WIDTH / 2 - horizontalSwing / 2;
+  const rightX = LEVEL_WIDTH / 2 + horizontalSwing / 2;
   const topMargin = 150; // stop generating platforms this far from the very top of the level
 
   this.physics.world.setBounds(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
@@ -73,12 +74,12 @@ function create() {
   // ground = this.add.rectangle(200, 340, 300, 40, 0x00ff00);
   this.physics.add.existing(ground, true); // true = static, ignores gravity, doesn't move
 
-  const platformData = []; 
-  let toggleRight = false; 
-  for (let y = LEVEL_HEIGHT - 100; y > topMargin; y -= platformStepY) { 
-    const x = toggleRight ? rightX : leftX; 
-    platformData.push([x, y, 160]); 
-    toggleRight = !toggleRight; 
+  const platformData = [];
+  let toggleRight = false;
+  for (let y = LEVEL_HEIGHT - 100; y > topMargin; y -= platformStepY) {
+    const x = toggleRight ? rightX : leftX;
+    platformData.push([x, y, 160]);
+    toggleRight = !toggleRight;
   }
   const platforms = [ground];
   for (const [px, py, pw] of platformData) {
